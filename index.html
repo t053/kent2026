@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康德哲學互動實驗室 | 理性的冒險</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+        body { font-family: 'Noto Serif TC', serif; background-color: #f8f5f0; }
+        .kant-blue { background-color: #1e3a8a; }
+        .module-card { transition: all 0.3s ease; }
+        .module-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .hidden-section { display: none; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="kant-blue text-white py-12 px-6 text-center shadow-lg">
+        <h1 class="text-4xl font-bold mb-4">康德哲學互動實驗室</h1>
+        <p class="text-xl opacity-90 italic">"Sapere Aude! 勇於求知！"</p>
+        <div class="mt-6 flex justify-center gap-4">
+            <span class="bg-blue-800 px-3 py-1 rounded text-sm border border-blue-400">權威來源：Stanford Encyclopedia of Philosophy</span>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-6">
+        
+        <nav class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <button onclick="showSection('epistemology')" class="module-card bg-white p-6 rounded-lg shadow border-l-4 border-blue-600 text-left">
+                <i data-lucide="eye" class="mb-2 text-blue-600"></i>
+                <h3 class="font-bold text-lg">認識實驗室</h3>
+                <p class="text-sm text-gray-600">空間、時間與範疇的濾鏡</p>
+            </button>
+            <button onclick="showSection('ethics')" class="module-card bg-white p-6 rounded-lg shadow border-l-4 border-red-600 text-left">
+                <i data-lucide="scale" class="mb-2 text-red-600"></i>
+                <h3 class="font-bold text-lg">道德導航儀</h3>
+                <p class="text-sm text-gray-600">絕對命令的普遍化測試</p>
+            </button>
+            <button onclick="showSection('aesthetics')" class="module-card bg-white p-6 rounded-lg shadow border-l-4 border-emerald-600 text-left">
+                <i data-lucide="palette" class="mb-2 text-emerald-600"></i>
+                <h3 class="font-bold text-lg">美感評議室</h3>
+                <p class="text-sm text-gray-600">無利害的愉悅體驗</p>
+            </button>
+        </nav>
+
+        <section id="epistemology" class="hidden-section bg-white p-8 rounded-xl shadow-inner border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-blue-900 border-b pb-2">【認識論】哥白尼式革命</h2>
+            <p class="mb-6 italic text-gray-700 underline decoration-blue-200">「直觀無概念是盲的，概念無直觀是空的。」</p>
+            
+            <div class="bg-slate-100 p-6 rounded-lg mb-6">
+                <p class="mb-4 font-bold">互動實驗：點擊下方按鈕，看看當我們移除「先天形式」時的世界：</p>
+                <div id="world-view" class="h-48 bg-gray-300 rounded-md flex items-center justify-center text-center p-4 transition-all duration-500 overflow-hidden">
+                    <span id="world-text" class="text-xl">按下方按鈕觀察世界...</span>
+                </div>
+                <div class="mt-4 flex gap-4">
+                    <button onclick="applyFilter('raw')" class="bg-gray-500 text-white px-4 py-2 rounded">原始物自身 (混亂)</button>
+                    <button onclick="applyFilter('kant')" class="bg-blue-700 text-white px-4 py-2 rounded">套用時空濾鏡</button>
+                </div>
+            </div>
+            <div class="text-sm text-gray-600 bg-blue-50 p-4 rounded">
+                <strong>SEP 筆記：</strong> 康德主張空間與時間不是客觀事物的屬性，而是我們感性的「先天形式」(A priori forms)。
+            </div>
+        </section>
+
+        <section id="ethics" class="hidden-section bg-white p-8 rounded-xl shadow-inner border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-red-900 border-b pb-2">【倫理學】定言令式測試</h2>
+            <p class="mb-6">請輸入你的行動準則，測試它是否能成為普遍法則：</p>
+            
+            <div class="space-y-4">
+                <input id="maxim-input" type="text" placeholder="例如：為了脫困，我可以給予虛假的承諾。" class="w-full p-3 border rounded">
+                <button onclick="testCategorical()" class="bg-red-700 text-white px-6 py-2 rounded">進行普遍化測試</button>
+                <div id="ethics-result" class="mt-4 p-4 rounded hidden"></div>
+            </div>
+        </section>
+
+        <section id="aesthetics" class="hidden-section bg-white p-8 rounded-xl shadow-inner border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-emerald-900 border-b pb-2">【美學】美感判斷</h2>
+            <p class="mb-4">康德認為「美」是無利害關係的。請選擇你對此對象的感覺：</p>
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <div class="w-full md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80" alt="花朵" class="rounded-lg shadow">
+                </div>
+                <div class="w-full md:w-1/2 space-y-4">
+                    <button onclick="judge('interested')" class="w-full p-3 border hover:bg-emerald-50 text-left rounded">A. 我想把它摘下來賣錢 (有利害關係)</button>
+                    <button onclick="judge('disinterested')" class="w-full p-3 border hover:bg-emerald-50 text-left rounded">B. 僅僅觀察其形式，感到心靈的愉悅 (無利害)</button>
+                    <div id="judge-result" class="mt-4 p-4 text-emerald-800 font-bold italic"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 py-10 bg-slate-900 text-white text-center">
+        <p>© 2024 康德哲學互動實驗室 | 內容基於 SEP 數位知識庫</p>
+    </footer>
+
+    <script>
+        // 初始化圖標
+        lucide.createIcons();
+
+        // 導覽切換
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById(id).classList.remove('hidden-section');
+            window.scrollTo({ top: document.querySelector('nav').offsetTop, behavior: 'smooth' });
+        }
+
+        // 認識論互動邏輯
+        function applyFilter(type) {
+            const world = document.getElementById('world-view');
+            const text = document.getElementById('world-text');
+            if(type === 'raw') {
+                world.style.background = "repeating-radial-gradient(circle, #888, #444 10%)";
+                text.innerText = "物自身 (Noumena)：未經感性處理的雜多，人類無法直接認知其本質。";
+                text.className = "text-white font-mono";
+            } else {
+                world.style.background = "url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80') center/cover";
+                text.innerText = "現象界 (Phenomena)：透過時間與空間框架後，呈現出有秩序的世界。";
+                text.className = "bg-white/80 p-2 rounded font-bold text-blue-900";
+            }
+        }
+
+        // 倫理學測試邏輯
+        function testCategorical() {
+            const input = document.getElementById('maxim-input').value;
+            const res = document.getElementById('ethics-result');
+            res.classList.remove('hidden');
+            
+            if (input.includes("說謊") || input.includes("承諾") || input.includes("偽造")) {
+                res.className = "mt-4 p-4 rounded bg-red-100 text-red-800 border border-red-300";
+                res.innerHTML = "<strong>測試失敗：</strong> 如果人人說謊，「承諾」本身將失去意義。這導致邏輯上的矛盾，因此這是錯誤的行動準則。";
+            } else {
+                res.className = "mt-4 p-4 rounded bg-green-100 text-green-800 border border-green-300";
+                res.innerHTML = "<strong>測試中：</strong> 考慮該準則是否能成為普遍自然法則。若能，則符合定言令式第一形式。";
+            }
+        }
+
+        // 美學判斷邏輯
+        function judge(type) {
+            const res = document.getElementById('judge-result');
+            if(type === 'interested') {
+                res.innerText = "這屬於『感官的快感』或『實用的好』，並非康德定義的純粹美感判斷。";
+            } else {
+                res.innerText = "正確！這正是康德所說的『無目的的合目的性』，一種自由的遊戲。";
+            }
+        }
+
+        // 預設顯示第一區塊
+        showSection('epistemology');
+    </script>
+</body>
+</html>
